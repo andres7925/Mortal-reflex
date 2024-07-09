@@ -7,16 +7,20 @@ public class EnemyControl : MonoBehaviour
     public float speed = 3.0f;
     public int vitality = 100;
 
+    private Animator EnemigoAnim;
     private Rigidbody enemyRb;
     private GameObject player;
     private PlayerControl playerControl;
     private Animator enemyAnim;
+
+    
 
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
         playerControl = player.GetComponent<PlayerControl>();
+        
         enemyAnim = GetComponent<Animator>();
     }
 
@@ -28,6 +32,11 @@ public class EnemyControl : MonoBehaviour
         {
             enemyAnim.SetBool("Attack", false);
             Vector3 lookDirection = (player.transform.position - transform.position).normalized;
+
+            // Rotar hacia el jugador
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
+
             enemyRb.MovePosition(transform.position + lookDirection * speed * Time.deltaTime);
             enemyAnim.SetBool("Move", true);
         }
@@ -38,8 +47,9 @@ public class EnemyControl : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionStay(Collision collision)
     {
+        bool boolValue = enemyAnim.GetBool("Attack");
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerControl playerControl = collision.gameObject.GetComponent<PlayerControl>();

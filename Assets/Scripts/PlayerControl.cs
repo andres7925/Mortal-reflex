@@ -55,6 +55,7 @@ public class PlayerControl : MonoBehaviour
         bool boolValue = playerAnim.GetBool("Attack");
         if (collision.gameObject.CompareTag("Enemigo") && boolValue)
         {
+
             EnemyControl enemyControl = collision.gameObject.GetComponent<EnemyControl>();
             if (enemyControl != null)
             {
@@ -66,7 +67,7 @@ public class PlayerControl : MonoBehaviour
 
     public void ReduceVitality(int amount)
     {
-        vitality -= amount;
+        vitality -= amount * Time.captureFramerate;
         Debug.Log("Player vitality: " + vitality);
         if (vitality <= 0)
         {
