@@ -45,6 +45,7 @@ public class PlayerControl : MonoBehaviour
         {
             playerAnim.SetBool("Die", true);
             muerto = true;
+            Debug.Log("GAME OVER");
         }  
     }
 

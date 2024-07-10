@@ -32,7 +32,7 @@ public class EnemyControl : MonoBehaviour
     void Update()
     {
         float distance = Vector3.Distance(player.transform.position, transform.position);
-        Debug.Log("vitalidad" + vitality);
+        
 
         if (vitality <= 0)
         {

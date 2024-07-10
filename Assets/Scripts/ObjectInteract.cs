@@ -5,6 +5,7 @@ using UnityEngine;
 public class ObjectInteract : MonoBehaviour
 {
     public Inventario inventario;
+    public int cantidadDeVitalidad = 10;
     void Start()
     {
         inventario = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventario>();
