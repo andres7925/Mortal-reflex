@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class Vidas : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            // Implementa aquí la lógica para cuando el objeto colisione con el jugador
-        }
-    }
+    private GameObject player;
+    private PlayerControl playerControl;
 
     private void Start()
     {
-        // Implementa aquí la lógica que necesites al iniciar el script
+        // Encuentra el objeto con la etiqueta "Player" y obtiene el componente PlayerControl
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerControl = player.GetComponent<PlayerControl>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            Destroy(gameObject);
+            Destroy(gameObject);  // Destruye el objeto 'corazon'
+            playerControl.vitality += 10;  // Incrementa la vitalidad del jugador en 10
         }
     }
 }

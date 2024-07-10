@@ -1196,6 +1196,7 @@ GameObject:
   - component: {fileID: 1162094983750917044}
   - component: {fileID: 1162094983750917045}
   - component: {fileID: 1162094983750917040}
+  - component: {fileID: 1924300194}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1286,8 +1287,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vitality: 100
+  vidaMaxima: 100
+  barraDevida: {fileID: 0}
   degrees: 5
   velocidad: 5
+  muerto: 0
 --- !u!114 &1162094983750917040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1301,6 +1305,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Vitality: 100
+--- !u!65 &1924300194
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7129182147468759007}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4949112, y: 0.22505355, z: 1.9777899}
+  m_Center: {x: -0.023981094, y: 0.4535395, z: -0.11740255}
 --- !u!1 &7129182147468759009
 GameObject:
   m_ObjectHideFlags: 0

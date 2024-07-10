@@ -13,6 +13,10 @@ public class EnemyControl : MonoBehaviour
     private PlayerControl playerControl;
     private Animator enemyAnim;
 
+    private float lastDamageTime;
+
+    private bool muerto = false;
+
     
 
     void Start()
@@ -22,12 +26,21 @@ public class EnemyControl : MonoBehaviour
         playerControl = player.GetComponent<PlayerControl>();
         
         enemyAnim = GetComponent<Animator>();
+        lastDamageTime = -10f;
     }
 
     void Update()
     {
         float distance = Vector3.Distance(player.transform.position, transform.position);
+        
 
+        if (vitality <= 0)
+        {
+            enemyAnim.SetBool("Die", true);
+            muerto = true;
+        }  
+
+        if (!muerto){
         if (distance > 1)
         {
             enemyAnim.SetBool("Attack", false);
@@ -45,25 +58,40 @@ public class EnemyControl : MonoBehaviour
             enemyAnim.SetBool("Move", false);
             enemyAnim.SetBool("Attack", true);
         }
+
+        if (vitality <= 0)
+        {
+            enemyAnim.SetBool("Die", true);
+        }  
+
+        }
+
+
+
     }
 
     void OnCollisionStay(Collision collision)
     {
         bool boolValue = enemyAnim.GetBool("Attack");
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && boolValue == true)
         {
             PlayerControl playerControl = collision.gameObject.GetComponent<PlayerControl>();
-            if (playerControl != null)
+            if (playerControl != null && boolValue == true)
             {
-                playerControl.ReduceVitality(10); // Reduce la vitalidad del jugador
-                ReduceVitality(10); // Reduce la vitalidad del enemigo
+                if (Time.time - lastDamageTime >= 1.5f)
+                {
+                    playerControl.vitality -= 10; // Reduce la vitalidad del jugador
+                    //Debug.Log("Player vitality: " + playerControl.vitality);
+                    lastDamageTime = Time.time;
+                }
+
             }
         }
     }
 
     public void ReduceVitality(int amount)
     {
-        vitality -= amount;
+        vitality -= amount * Time.captureFramerate;
         Debug.Log("Enemy vitality: " + vitality);
         if (vitality <= 0)
         {
