@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Vidas : MonoBehaviour
 {
+
+    private void OnCollisionEnter(Collision other) // Cambié Collider a Collision
+    {
+        if (other.gameObject.tag == "Player")
     private void Start()
     {
         
@@ -12,6 +16,7 @@ public class Vidas : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
+
         {
             Destroy(gameObject);
         }
