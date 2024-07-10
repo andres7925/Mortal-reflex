@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 8272943599214529815}
   m_Layer: 0
   m_Name: deb_Goblin01
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1868,3 +1868,13 @@ Transform:
   m_Father: {fileID: 8272943599223628455}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1029 &102900000
+DefaultAsset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: deb_Goblin01
+  m_Message: .prefab file is not a prefab. There are no GameObjects in the file.
+    Did you give the asset the wrong extension?
+  m_IsWarning: 1
