@@ -619,7 +619,7 @@ GameObject:
   - component: {fileID: 6984431824431254774}
   - component: {fileID: 6984431824431254775}
   - component: {fileID: 6984431824431254772}
-  - component: {fileID: 998661204}
+  - component: {fileID: 1115692933}
   m_Layer: 0
   m_Name: Enemigo
   m_TagString: Enemigo
@@ -710,19 +710,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   vitality: 100
---- !u!65 &998661204
-BoxCollider:
+--- !u!135 &1115692933
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1306828816210566184}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
+  m_IsTrigger: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.34732342, z: 1.5686226}
-  m_Center: {x: 0, y: 0.5663481, z: 0.09476566}
+  m_Radius: 0.9240824
+  m_Center: {x: 0.0113092065, y: 0.67315793, z: -0.011278629}
 --- !u!1 &1306828816210566186
 GameObject:
   m_ObjectHideFlags: 0

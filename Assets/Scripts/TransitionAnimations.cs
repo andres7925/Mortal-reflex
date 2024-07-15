@@ -35,7 +35,10 @@ public class TransitionAnimations : MonoBehaviour
         // }
 
         if (Input.GetKey("space"))
-        {anim.SetBool("Attack",true);}
+        {
+            anim.SetBool("Attack",true);
+            anim.SetBool("Move", false);
+        }
 
         if (!Input.GetKey("space"))
         {anim.SetBool("Attack" ,false);}

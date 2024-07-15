@@ -5,11 +5,19 @@ using UnityEngine;
 public class Particulas : MonoBehaviour
 {
     public Vector3 incrementoDeTamaño = new Vector3(1, 1, 1); // Incremento de tamaño del jugador
+    private PlayerControl PlayerControl; // Define playerControl a nivel de clase
+
+    void Start()
+    {
+        PlayerControl = GetComponent<PlayerControl>(); // Asigna el componente a la variable de instancia
+
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Particula"))
         {
+           
 
             // Destruir el objeto con el que colisionó
             Destroy(other.gameObject);
@@ -21,8 +29,6 @@ public class Particulas : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-
-
         if (collision.gameObject.CompareTag("Particula"))
         {
             // Destruir el objeto con el que colisionó
@@ -36,6 +42,13 @@ public class Particulas : MonoBehaviour
     private void AumentarTamañoJugador()
     {
         transform.localScale += incrementoDeTamaño;
-        Debug.Log("Tamaño del jugador aumentado a: " + transform.localScale);
+
+        if (PlayerControl != null)
+        {
+            // Modifica la variable ataque en PlayerControl
+            PlayerControl.ataque += 0.5f;
+            
+        }
+
     }
 }

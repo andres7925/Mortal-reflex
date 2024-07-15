@@ -6481,6 +6481,10 @@ PrefabInstance:
       propertyPath: barraDevida
       value: 
       objectReference: {fileID: 63626013}
+    - target: {fileID: 1162094983750917045, guid: 32dc6f73e3d5d774fa1d8127e309da3f, type: 3}
+      propertyPath: gravityModifier
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 7129182147468399615, guid: 32dc6f73e3d5d774fa1d8127e309da3f, type: 3}
       propertyPath: m_RootOrder
       value: 0
