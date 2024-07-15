@@ -971,7 +971,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7129182147468759001}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.000000004824371, y: 0, z: 0}
+  m_LocalPosition: {x: 0.000000004824371, y: -0.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1196,7 +1196,10 @@ GameObject:
   - component: {fileID: 1162094983750917044}
   - component: {fileID: 1162094983750917045}
   - component: {fileID: 1162094983750917040}
-  - component: {fileID: 1924300194}
+  - component: {fileID: 1747180271}
+  - component: {fileID: 1747180261}
+  - component: {fileID: 1747180263}
+  - component: {fileID: 1747180264}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1291,7 +1294,11 @@ MonoBehaviour:
   barraDevida: {fileID: 0}
   degrees: 5
   velocidad: 5
+  gravityModifier: 100
   muerto: 0
+  ataque: 1
+  enemigosAsesinados: 0
+  CanvasTextEnemigos: {fileID: 0}
 --- !u!114 &1162094983750917040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1304,9 +1311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c955275cc9d944880883f2e26db1c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Vitality: 100
---- !u!65 &1924300194
-BoxCollider:
+  Vitality: 50
+--- !u!135 &1747180271
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1316,8 +1323,47 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.4949112, y: 0.22505355, z: 1.9777899}
-  m_Center: {x: -0.023981094, y: 0.4535395, z: -0.11740255}
+  m_Radius: 0.77396697
+  m_Center: {x: -1.6940675e-21, y: 0.649951, z: -0.00000059604645}
+--- !u!114 &1747180261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7129182147468759007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61035705a38a5245a140429b006fc83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cantidad: 0
+  CanvasText: {fileID: 0}
+--- !u!114 &1747180263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7129182147468759007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417a2e33886cb7141837468be15e0f15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "incrementoDeTama\xF1o": {x: 1, y: 1, z: 1}
+--- !u!114 &1747180264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7129182147468759007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b30075cf53b1a4fae4d78ce28e4bc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7129182147468759009
 GameObject:
   m_ObjectHideFlags: 0

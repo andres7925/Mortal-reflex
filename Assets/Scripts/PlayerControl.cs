@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using TMPro;
 public class PlayerControl : MonoBehaviour
 {
     public int vitality;
@@ -18,8 +20,16 @@ public class PlayerControl : MonoBehaviour
     private GameObject enemy;
     private float lastDamageTime;
 
-    public bool muerto = false;
+    public float gravityModifier;
 
+    public bool muerto = false;
+    public float ataque = 1;
+
+    public int enemigosAsesinados = 0;
+
+    public Inventario inventario;
+
+    public TMP_Text CanvasTextEnemigos;
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
@@ -27,25 +37,47 @@ public class PlayerControl : MonoBehaviour
         playerAnim = GetComponent<Animator>();
         barraDevida.InicializarBarra(vitality);
         lastDamageTime = -10f;
+        Physics.gravity *= gravityModifier;
+        CanvasTextEnemigos.text = "Corazones " + enemigosAsesinados;
+        inventario = inventario.GetComponent<Inventario>();
         
         
     }
 
     void Update()
     {
+        CanvasTextEnemigos.text = "Clones " + enemigosAsesinados; 
         if (!muerto){
-            ForwardMovement();
+            bool boolValue = playerAnim.GetBool("Attack");
+            if (!boolValue)
+            {
+                ForwardMovement();
+            }
+            
             MovSide();
+            
         }
 
-        //Debug.Log("Vitalidad Player" + vitality);
+        if (enemigosAsesinados >= 5 && inventario.Cantidad == 10) 
+        {
+            SceneManager.LoadScene("Fin Del juego");
+            
+        }
+
+        
         barraDevida.CambiarVidaActual(vitality);
+
+        if (playerRigidbody.transform.position.y <= -10)
+        {
+            vitality = -5;
+        }
 
         if (vitality <= 0)
         {
             playerAnim.SetBool("Die", true);
             muerto = true;
             Debug.Log("GAME OVER");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }  
     }
 
@@ -73,24 +105,30 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    void OnTriggerStay(Collider collision){
 
-    void OnCollisionStay(Collision collision)
-    {
-        bool boolValue = playerAnim.GetBool("Attack");
-        if (collision.gameObject.CompareTag("Enemigo") && boolValue == true)
+        
+
+        if (collision.gameObject.CompareTag("Enemigo"))
         {
-            EnemyControl enemyControl = collision.gameObject.GetComponent<EnemyControl>();
-            if (enemyControl != null)
+            
+            bool boolValue = playerAnim.GetBool("Attack");
+            if (collision.gameObject.CompareTag("Enemigo") && boolValue)
             {
-                // Verifica si han pasado al menos 2 segundos desde la última reducción de vitalidad
-                if (Time.time - lastDamageTime >= 1.5f)
+                EnemyControl enemyControl = collision.gameObject.GetComponent<EnemyControl>();
+                if (enemyControl != null)
                 {
-                    enemyControl.vitality -= 15; // Reduce la vitalidad del enemigo
-                    lastDamageTime = Time.time; // Actualiza el tiempo de la última reducción de vitalidad
+                    // Verifica si han pasado al menos 2 segundos desde la última reducción de vitalidad
+                    if (Time.time - lastDamageTime >= 1.5f)
+                    {
+                        enemyControl.vitality -= 25 * ataque; // Reduce la vitalidad del enemigo
+                        lastDamageTime = Time.time; // Actualiza el tiempo de la última reducción de vitalidad
+                    }
                 }
             }
         }
     }
+
     public void ReduceVitality(int amount)
     {
         vitality -= amount * Time.captureFramerate;

@@ -1,101 +1,101 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyControl : MonoBehaviour
 {
     public float speed = 3.0f;
-    public int vitality = 100;
+    public float vitality = 100f;
 
-    private Animator EnemigoAnim;
+    private Animator enemyAnim;
     private Rigidbody enemyRb;
     private GameObject player;
     private PlayerControl playerControl;
-    private Animator enemyAnim;
 
     private float lastDamageTime;
-
     private bool muerto = false;
-
-    
+    private bool isColliding = false;
+    private bool confirmacion = true;
 
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
+        enemyAnim = GetComponent<Animator>();
         player = GameObject.Find("Player");
         playerControl = player.GetComponent<PlayerControl>();
-        
-        enemyAnim = GetComponent<Animator>();
         lastDamageTime = -10f;
     }
 
     void Update()
     {
-        float distance = Vector3.Distance(player.transform.position, transform.position);
+        Vector3 lookDirection = (player.transform.position - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
         
-
-        if (vitality <= 0)
+        if (vitality <= 0 && !muerto)
         {
             enemyAnim.SetBool("Die", true);
             muerto = true;
-        }  
+            if (confirmacion)
+            {
+                playerControl.enemigosAsesinados += 1;
+                confirmacion = false;
+            }
 
-        if (!muerto){
-        if (distance > 1)
+            // Autodestrucción después de 10 segundos (para que se ejecute la animacion de muerte)
+            StartCoroutine(DestruirDespuesDe(10f));
+        }
+
+        if (!muerto && !isColliding)
         {
-            enemyAnim.SetBool("Attack", false);
-            Vector3 lookDirection = (player.transform.position - transform.position).normalized;
-
-            // Rotar hacia el jugador
-            Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+            // Vector3 lookDirection = (player.transform.position - transform.position).normalized;
+            // Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
-
             enemyRb.MovePosition(transform.position + lookDirection * speed * Time.deltaTime);
             enemyAnim.SetBool("Move", true);
+            //isColliding = false;
+            enemyAnim.SetBool("Attack", false);
         }
         else
         {
             enemyAnim.SetBool("Move", false);
             enemyAnim.SetBool("Attack", true);
         }
-
-        if (vitality <= 0)
-        {
-            enemyAnim.SetBool("Die", true);
-        }  
-
+        
+        if (true){
+            
         }
-
-
-
     }
 
-    void OnCollisionStay(Collision collision)
+
+    IEnumerator DestruirDespuesDe(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
+    }
+
+    void OnTriggerStay(Collider collision)
     {
         bool boolValue = enemyAnim.GetBool("Attack");
-        if (collision.gameObject.CompareTag("Player") && boolValue == true)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerControl playerControl = collision.gameObject.GetComponent<PlayerControl>();
-            if (playerControl != null && boolValue == true)
+            isColliding = true;
+            if (boolValue && !muerto)
             {
-                if (Time.time - lastDamageTime >= 1.5f)
+                PlayerControl playerControl = collision.gameObject.GetComponent<PlayerControl>();
+                if (playerControl != null && boolValue)
                 {
-                    playerControl.vitality -= 10; // Reduce la vitalidad del jugador
-                    //Debug.Log("Player vitality: " + playerControl.vitality);
-                    lastDamageTime = Time.time;
+                    if (Time.time - lastDamageTime >= 1.5f)
+                    {
+                        playerControl.vitality -= 8;
+                        lastDamageTime = Time.time;
+                    }
                 }
-
             }
         }
     }
 
-    public void ReduceVitality(int amount)
+    void OnTriggerExit(Collider other)
     {
-        vitality -= amount * Time.captureFramerate;
-        Debug.Log("Enemy vitality: " + vitality);
-        if (vitality <= 0)
-        {
-            //muerto
-        }
+        isColliding = false;
     }
 }

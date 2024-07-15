@@ -5,11 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class MenuPrincipal : MonoBehaviour
 {
-    public void Play()
-    {
+    public void Jugar(){
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         SceneManager.LoadScene("Nivel1");
     }
+    
+    public void RepetirJuego(){
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("MenuPrincipal");
+    }
 
-    // Update is called once per frame
-   
+    public void salir(){
+        Debug.Log("Adios!!!");
+        Application.Quit();
+    }
+
 }
